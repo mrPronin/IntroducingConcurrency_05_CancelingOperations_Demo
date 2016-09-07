@@ -17,7 +17,10 @@ class ArraySumOperation: NSOperation {
   }
   
   override func main() {
-    // TODO: Fill this in
+    for pair in inputArray {
+        if cancelled {return}
+        outputArray.append(slowAdd(pair))
+    }
   }
 }
 
@@ -32,7 +35,11 @@ class AnotherArraySumOperation: NSOperation {
   }
   
   override func main() {
-    // TODO: Fill in this
+    outputArray = slowAddArray(inputArray) {
+        progress in
+        print("\(progress * 100)% of the array processed")
+        return !self.cancelled
+    }
   }
 }
 
@@ -40,13 +47,16 @@ class AnotherArraySumOperation: NSOperation {
 let numberArray = [(1,2), (3,4), (5,6), (7,8), (9,10)]
 
 //: Operation and queue
-let sumOperation = ArraySumOperation(input: numberArray)
+let sumOperation = AnotherArraySumOperation(input: numberArray)
 let queue = NSOperationQueue()
 
 //: Start the operation and
 startClock()
 queue.addOperation(sumOperation)
 
+delay(1.5){
+    sumOperation.cancel()
+}
 
 sumOperation.completionBlock = {
   stopClock()
