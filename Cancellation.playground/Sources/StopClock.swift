@@ -1,11 +1,11 @@
 import Foundation
 
-private var lastStartTime = NSDate()
+private var lastStartTime = Date()
 
 public func startClock(){
-  lastStartTime = NSDate()
+  lastStartTime = Date()
 }
 
-public func stopClock() -> NSTimeInterval {
-  return NSDate().timeIntervalSinceDate(lastStartTime)
+public func stopClock() -> TimeInterval {
+  return Date().timeIntervalSince(lastStartTime)
 }
